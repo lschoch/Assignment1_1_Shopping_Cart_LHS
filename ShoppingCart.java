@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  * A class that implements a bag of items using a ResizeableArrayBag ADT.
  * The size of the bag is limited only by the computer's available
@@ -12,8 +14,7 @@ public class ShoppingCart {
 	// private int intID = 1;
 
 	/** Creates a bag with the specified contents. */
-	public ShoppingCart(Item[] contents) 
-	{
+	public ShoppingCart(Item[] contents) {
 		// ID's are assigned as consecutive integers starting with 1.
 		// Convert to String to allow concatenation.
 		// this.cartID = String.valueOf(intID);
@@ -101,17 +102,72 @@ public class ShoppingCart {
 	 * properties. The last line to show the total cost of all items in the 
 	 * cart. 
 	 * @return The tabulated string. */
-	public String orderToString();
+	public String orderToString() {
+		String str;
+		Item[] counted = new Item[getCartSize()]; // There may be empty elements.
+		counted = sortByName();
+		str = "ID\tName\t\tPrice\tQuantity\tCost\n";
+		int totalCost = 0;
+		int dollarPrice = 0;
+		int centsPrice = 0;
+		int lineCost = 0;
+		for (int i=0; i<counted.length; i++) {
+			if (counted[i] != null) {
+				dollarPrice = counted[i].getPrice()/100;
+				centsPrice = counted[i].getPrice()%100;
+				lineCost = counted[i].getPrice()*counted[i].getQuantity();
+				totalCost+=lineCost;
+				str+= counted[i].getID()+"\t"+counted[i].getName()+"\t\t$"
+					+dollarPrice+"."+centsPrice+"\t"+counted[i].getQuantity()
+					+"\t$"+lineCost/100+"."+lineCost%100+"\n";
+			}
+		}
+		str+= "\t\t\t\ttotal\t$"+totalCost/100+"."+totalCost%100+"\n";
+		return str;
+	} // end orderToString
 	
 	/**
 	 * Creates and retrieves the contents of the cart as an array of items.
-	 * @return The array of items in the cart.
-	 */
-	public T [] cartToArray();
+	 * @return The array of items in the cart.*/
+	public Item [] cartToArray() {
+		return cart.toArray();
+	} // end cartToArray
 	
 	/**
-	 * Gets the total cost of all items in the cart.
-	 * @return The total cost (multiplied by 100 and expressed as an integer).
-	 */
-	public int getTotalCost();
+	 * Gets the total cost of all items in the cart multiplied by 100 and
+	 * expressed as an integer.
+	 * @return The total cost. */
+	public int getTotalCost() {
+		int total = 0;
+		Item[] counted = new Item[getCartSize()]; // There may be empty elements.
+		counted = sortByName();
+		for (int i=0; i<counted.length; i++) {
+			if (counted[i] != null) {
+				total+= counted[i].getPrice()*counted[i].getQuantity();
+			}
+		}
+		return total;
+	}
+	
+	/**
+	 * Creates a new array then removes duplicates and updates quantity field.
+	 * @return The new array. */
+	private Item[] sortByName() {
+		Item[] sorted = new Item[getCartSize()];
+		Item[] counted = new Item[getCartSize()];
+		Arrays.sort(sorted, Comparator.comparing(Item::getName));
+		int counter = 1; // Count of 1 means no duplicates.
+		int index = 0; // Index position in counted array.
+		for (int i=0; i<sorted.length-1; i++) {
+			if (sorted[i].getName().compareTo(sorted[i+1].getName()) == 0) 
+				counter++; // Increment counter for each duplicate.
+			else {
+				counted[index] = sorted[i];
+				counted[index].setQuantity(counter);
+				counter = 0;
+				index++;
+			}
+		}
+		return counted;
+	} // end sortByName
 }
