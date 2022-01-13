@@ -1,3 +1,5 @@
+import java.sql.Timestamp;
+
 /**
  * A class that creates items to be presented for purchase in an 
  * online shopping enterprise. 
@@ -10,20 +12,22 @@ public class Item implements ItemInterface {
 	private String name;
 	private int price;
 	private int quantity;
-	private int intID = 1;
+	Timestamp ts = new Timestamp(System.currentTimeMillis());
 	
 	/** Creates a blank item with calculated ID. */
 	public Item() {
-		// ID's are assigned as consecutive integers starting with 1.
+		// Item ID is calculated from timestamp on instantiation.
 		// Convert to String to allow concatenation.
-		this.ID = String.valueOf(intID);
-		intID++;
+		this.ID = String.valueOf(ts.getTime());
 		this.name = " ";
 		this.quantity = 0;
 	} // end default constructor
 	
 	/** Creates an item with a calculated ID and the specified paramenters. */
 	public Item(String name, int price, int quantity) {
+		// Item ID is calculated from timestamp on instantiation.
+		// Convert to String to allow concatenation.
+		this.ID = String.valueOf(ts.getTime());
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
@@ -94,7 +98,8 @@ public class Item implements ItemInterface {
 	 * @return The created string. */
 	@Override
 	public String itemToString() {
-		return "Item [ID=" + ID + ", name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
+		//return "Item [ID=" + ID + ", name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
+		return String.format("Item [ID=%13s Name=%-13s Price=%6s Quantity=%3s]", ID,name,price,quantity);
 	}
 
 }
