@@ -26,23 +26,6 @@ public class ShoppingCartDemo {
 		// A cart that is not full
 		ShoppingCart aCart = new ShoppingCart (contents);
 		
-//		displayContents(aCart);
-//		
-//		System.out.println("Total cost: " + aCart.getTotalCost());
-//		
-//		Item[] sort = new Item[aCart.getCartSize()];
-//		sort = aCart.cartToArray();
-//		sort = aCart.sortByName();
-//		System.out.println("sort");
-//		for (int i=0; i<sort.length; i++)
-//			if (sort[i] !=null)
-//				System.out.println(sort[i].itemToString());
-//		//displayContents(aCart);
-//		for (int i=0; i<aCart.getCartSize(); i++)
-//			if (aCart.cartToArray()[i] !=null)
-//				System.out.println(aCart.cartToArray()[i].itemToString());
-//		System.out.println("END ------------------------");
-		
 		System.out.println("//----------------------------------------------------------------------");
 		System.out.println("// Cart contents are printed by converting the cart to an array\n"
 			+ "// and printing each item using the item.toString method.\n\n"
