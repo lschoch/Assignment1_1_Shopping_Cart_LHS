@@ -141,23 +141,41 @@ public class ShoppingCart {
 	 * Creates and retrieves the contents of the cart as an array of items.
 	 * @return The array of items in the cart.*/
 	public Item[] cartToArray() {
-		Item [] result = new Item[cart.getCurrentSize()];
-		int index = 0;
-		while (!isCartEmpty()) {
-			result[index] = removeAnyItem();
-			index++;
-		}
-		for (int i=0; i<result.length; i++)
+		Item [] result = new Item[getCartSize()];
+		//System.out.println("Output from cartToArrayMethod:");
+		for (int i=0; i<result.length; i++) {
+			result[i] = removeAnyItem();
+			//System.out.println("removed: "+i+" "+result[i].itemToString());
+		} 
+		for (int i=0; i<result.length; i++) {
 			addItem(result[i], 1);
+			//System.out.println("added "+i+" "+result[i].itemToString());
+		}
+		//System.out.println("End cartToArray");
 		return result;
 //		return cart.toArray();
 	} // end cartToArray
 	
 	/**
+	 * Gets the total cost of all items in the cart as a multiple of 100 and
+	 * expressed as in integer.
+	 * @return The total cost.
+	 */
+	public int getTotalCost() {
+		int total = 0;
+		Item[] ar = new Item[getCartSize()];
+		ar = cartToArray();
+		for (int i=0; i<ar.length; i++) 
+			if (ar[i] !=null)
+				total+=ar[i].getPrice()*ar[i].getQuantity();
+		return total;
+	}
+	
+	/**
 	 * Creates a new array that combines the duplicates and updates the 
 	 * quantity fields.
 	 * @return The new array. */
-	public Item[] sortByName() {
+	private Item[] sortByName() {
 		
 		Item[] toBeSorted = cartToArray(); // Copy the bag's array.
 		Item[] counted = new Item[toBeSorted.length]; // New empty array to hold duplicates.
@@ -172,6 +190,10 @@ public class ShoppingCart {
 				counted[index] = toBeSorted[i+1];
 			}
 		}
+		removeAllItems();
+		for (int i=0; i<counted.length; i++) 
+			if (counted[i] != null)
+				addItem(counted[i], 1);
 		return counted;
 	} // end sortByName
 	

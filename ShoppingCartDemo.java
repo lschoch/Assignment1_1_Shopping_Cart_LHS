@@ -26,88 +26,105 @@ public class ShoppingCartDemo {
 		// A cart that is not full
 		ShoppingCart aCart = new ShoppingCart (contents);
 		
-		displayContents(aCart);
-		Item[] sort = new Item[aCart.getCartSize()];
-		sort = aCart.cartToArray(); //sortByName();
-		for (int i=0; i<sort.length; i++)
-			if (sort[i] !=null)
-				System.out.print(sort[i].itemToString() + "\n");
-		System.out.println("");
+//		displayContents(aCart);
+//		
+//		System.out.println("Total cost: " + aCart.getTotalCost());
+//		
+//		Item[] sort = new Item[aCart.getCartSize()];
+//		sort = aCart.cartToArray();
+//		sort = aCart.sortByName();
+//		System.out.println("sort");
+//		for (int i=0; i<sort.length; i++)
+//			if (sort[i] !=null)
+//				System.out.println(sort[i].itemToString());
+//		//displayContents(aCart);
+//		for (int i=0; i<aCart.getCartSize(); i++)
+//			if (aCart.cartToArray()[i] !=null)
+//				System.out.println(aCart.cartToArray()[i].itemToString());
+//		System.out.println("END ------------------------");
+		
+		System.out.println("//----------------------------------------------------------------------");
+		System.out.println("// Cart contents are printed by converting the cart to an array\n"
+			+ "// and printing each item using the item.toString method.\n\n"
+			+ "// Contents of cart created with preferred constructor:");
 		displayContents(aCart);
 		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Contents of cart after removing item5 (Hiking Boots) with removeSpecificItem method:");
+		aCart.removeSpecificItem(item5);
+		displayContents(aCart);
 		
-//		System.out.println("//----------------------------------------------------------------------");
-//		System.out.println("// Cart contents are printed by converting the cart to an array\n"
-//			+ "// and printing each item using the item.toString method.\n\n"
-//			+ "// Contents of cart created with preferred constructor:");
-//		displayContents(aCart);
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Contents of cart after removing item5 (Hiking Boots) with removeSpecificItem method:");
-//		aCart.removeSpecificItem(item5);
-//		displayContents(aCart);
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Testing isCartEmpty method\n"
-//				+ "// Cart is not empty, isCartEmpty method should return false.");
-//		String str = "";
-//		str = aCart.isCartEmpty() ? "INCORRECT" : "CORRECT";
-//		System.out.println("isCartEmpty returns: " + aCart.isCartEmpty() + ", " + str + "\n");
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Contents of cart after adding 2 counts of item5 (Hiking Boots)with addItem method:\n"
-//				+ "// (Recall that item5 is 20 pairs of boots so adding 2 items5's = 40 pairs added.");
-//		aCart.addItem(item5, 2);
-//		displayContents(aCart);
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Contents of cart after removing a non-specified item with removeAnyItem method:");
-//		Item itemRemoved = new Item();
-//		itemRemoved = aCart.removeAnyItem();
-//		displayContents(aCart);
-//		System.out.println("item removed: " + itemRemoved.getName() + ", quantity: " 
-//				+ itemRemoved.getQuantity() + ".\n");
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Testing containsItem method\n"
-//				+ "// Cart currently contains every item, containsItem method should return true\n"
-//				+ "// for any item.");
-//		str = aCart.containsItem(item4) ? "CORRECT" : "INCORRECT";
-//		System.out.println("containsItem(item4) returns: " + aCart.containsItem(item4) + ", " + str);
-//		aCart.removeSpecificItem(item6);
-//		str = aCart.containsItem(item6) ? "INCORRECT" : "CORRECT";
-//		System.out.println("after removing item6, containsItem(item6) returns: " 
-//				+ aCart.containsItem(item6) + ", " + str + "\n");
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Testing numberOfSpecificItem method\n"
-//				+ "// Cart currently contains 2 Tackle Box entries (item4), numberOfSpecificItem(item4)\n"
-//				+ "// should return 2.");
-//		str = aCart.numberOfSpecificItem(item4) == 2 ? "CORRECT" : "INCORRECT";
-//		System.out.println("numberOfSpecificItem(item4) returns: " + aCart.numberOfSpecificItem(item4) 
-//			+ ", " + str + "\n");
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Testing getCartSize method\n"
-//				+ "// By manual count, cart currently contains 7 items.\n"
-//				+ "// getCartSize should return 7.");
-//		str = aCart.getCartSize() == 7 ? "CORRECT" : "INCORRECT";
-//		System.out.println("// Current cart contents:");
-//		displayContents(aCart);
-//		System.out.println("getCurrentSize returns: " + aCart.getCartSize() 
-//			+ ", " + str + "\n");
-//		
-//		System.out.println("//----------------------------------------------------------------------\n"
-//				+ "// Output of orderToString method followed by a listing of the cart's items\n"
-//				+ "// for verification. Listing the cart's contents uses the cartToArray method.\n");
-//		System.out.println("\n\n");
-//		System.out.println(aCart.orderToString() + "\n");
-//		displayContents(aCart);
-//		displayContents(aCart);
-//		
-//		aCart.getTotalCost();
-//		System.out.println(aCart.getCartSize());
-//		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing isCartEmpty method\n"
+				+ "// Cart is not empty, isCartEmpty method should return false.");
+		String str = "";
+		str = aCart.isCartEmpty() ? "INCORRECT" : "CORRECT";
+		System.out.println("isCartEmpty returns: " + aCart.isCartEmpty() + ", " + str + "\n");
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Contents of cart after adding 2 counts of item5 (Hiking Boots)with addItem method:\n"
+				+ "// (Recall that item5 is 20 pairs of boots so adding 2 items5's = 40 pairs added.");
+		aCart.addItem(item5, 2);
+		displayContents(aCart);
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Contents of cart after removing a non-specified item with removeAnyItem method:");
+		Item itemRemoved = new Item();
+		itemRemoved = aCart.removeAnyItem();
+		displayContents(aCart);
+		System.out.println("item removed: " + itemRemoved.getName() + ", quantity: " 
+				+ itemRemoved.getQuantity() + ".\n");
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing containsItem method\n"
+				+ "// Cart currently contains every item, containsItem method should return true\n"
+				+ "// for any item.");
+		str = aCart.containsItem(item4) ? "CORRECT" : "INCORRECT";
+		System.out.println("containsItem(item4) returns: " + aCart.containsItem(item4) + ", " + str);
+		aCart.removeSpecificItem(item6);
+		str = aCart.containsItem(item6) ? "INCORRECT" : "CORRECT";
+		System.out.println("after removing item6, containsItem(item6) returns: " 
+				+ aCart.containsItem(item6) + ", " + str + "\n");
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing numberOfSpecificItem method\n"
+				+ "// Cart currently contains 2 Tackle Box entries (item4), numberOfSpecificItem(item4)\n"
+				+ "// should return 2.");
+		str = aCart.numberOfSpecificItem(item4) == 2 ? "CORRECT" : "INCORRECT";
+		System.out.println("numberOfSpecificItem(item4) returns: " + aCart.numberOfSpecificItem(item4) 
+			+ ", " + str + "\n");
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing getCartSize method\n"
+				+ "// By manual count, cart currently contains 7 items.\n"
+				+ "// getCartSize should return 7.");
+		str = aCart.getCartSize() == 7 ? "CORRECT" : "INCORRECT";
+		System.out.println("// Current cart contents:");
+		displayContents(aCart);
+		System.out.println("getCurrentSize returns: " + aCart.getCartSize() 
+			+ ", " + str + "\n\n");
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing the orderToString method:\n"
+				+ "// The following shows the output of the orderToString method followed\n"
+				+ "// by a listing of the cart's items for verification. Listing the cart's\n"
+				+ "// contents uses the cartToArray method.\n");
+		//System.out.println("\n");
+		System.out.println(aCart.orderToString() + "\n");
+		displayContents(aCart);
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing getTotalCost method.\n"
+				+ "// See preceding orderToCart output for verification.\n");
+		str = aCart.getTotalCost() == 469500 ? "CORRECT" : "INCORRECT";
+		System.out.println("getTotalCost returns: " + aCart.getTotalCost() + ", " + str + "\n");
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing removeAllItems method and confirming wiht isCartEmpty method.\n");
+		aCart.removeAllItems();
+		str = aCart.isCartEmpty() ? "CORRECT" : "INCORRECT";
+		System.out.println("After removeAllItems, isCartEmpty returns: " + aCart.isCartEmpty() + ", " + str + "\n");
+		
 	} // end main
 	
 	/**
@@ -117,9 +134,10 @@ public class ShoppingCartDemo {
 	 */
 	private static void displayContents(ShoppingCart cart) {
 		Item[] ar = cart.cartToArray();
+		System.out.println("displayContents:");
 		for (int i=0; i<ar.length; i++) 
 			System.out.println(ar[i].itemToString());
-		System.out.println("");
+		System.out.println(" ");
 	} // end displayContents
 	
 } // end class
