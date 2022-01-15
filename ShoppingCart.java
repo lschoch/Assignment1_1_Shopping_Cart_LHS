@@ -169,13 +169,28 @@ public class ShoppingCart {
 	}
 	
 	/**
+	 * Removes all items with the given ID
+	 * @parameter ID The ID of the item to be removed.
+	 * @return The number of items removed. */
+	public int removeItemByName(String name) {
+		Item[] ar = cartToArray();
+		int count = 0;
+		for (int i=0; i<cart.getCurrentSize(); i++)
+			if (ar[i].getName().equals(name)) {
+				cart.remove(ar[i]);
+				count++;
+			}
+		return count;
+	}
+	
+	/**
 	 * Creates a new array that combines the duplicates and updates the 
 	 * quantity fields.
 	 * @return The new array. */
 	private Item[] sortByName() {
 		
 		Item[] toBeSorted = cartToArray(); // Copy the bag's array.
-		Item[] counted = new Item[toBeSorted.length]; // New empty array to hold duplicates.
+		Item[] counted = new Item[toBeSorted.length]; // New empty array to combine duplicates
 		Arrays.sort(toBeSorted, Comparator.comparing(Item::getName)); // Sort on name.
 		int index = 0; // Index position in counted array.
 		counted[0] = toBeSorted[0];
@@ -188,13 +203,13 @@ public class ShoppingCart {
 			}
 		}
 		
-		System.out.println("counted array, at end of sorByName:");
-		for (int i=0; i<counted.length; i++) 
-			if (counted[i] != null)
-				System.out.println(counted[i].itemToString());
-			else
-				System.out.println("null");
-		System.out.println("-----------------------------------\n");
+//		System.out.println("counted array, at end of sorByName:");
+//		for (int i=0; i<counted.length; i++) 
+//			if (counted[i] != null)
+//				System.out.println(counted[i].itemToString());
+//			else
+//				System.out.println("null");
+//		System.out.println("-----------------------------------\n");
 		
 		// Re-populate the cart with items in the counted array
 		removeAllItems();
