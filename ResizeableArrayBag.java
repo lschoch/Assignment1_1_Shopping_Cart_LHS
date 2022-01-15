@@ -9,7 +9,7 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
 {
 	private T[] bag; // Cannot be final due to doubling
 	private int numberOfEntries;
-   private boolean integrityOK = false;
+    private boolean integrityOK = false;
 	private static final int DEFAULT_CAPACITY = 25; // Initial capacity of bag
 	private static final int MAX_CAPACITY = 10000;
 
@@ -68,12 +68,11 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
       
       // The cast is safe because the new array contains null entries.
       @SuppressWarnings("unchecked")
-      T[] result = (T[])new Object[numberOfEntries]; // Unchecked cast
+      T[] result = (T[]) new Object[numberOfEntries]; // Unchecked cast
       for (int index = 0; index < numberOfEntries; index++)
       {
          result[index] = bag[index];
       } // end for
-      
       return result;
 	} // end toArray
    

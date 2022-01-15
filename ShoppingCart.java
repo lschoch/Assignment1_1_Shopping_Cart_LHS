@@ -12,13 +12,13 @@ import java.sql.Timestamp;
  */
 public class ShoppingCart {
 	private String cartID;
-	ResizeableArrayBag<Item> cart;
+	private ResizeableArrayBag<Item> cart;
 	Timestamp ts = new Timestamp(System.currentTimeMillis());
 
 	/** Creates a ShoppingCart with the specified contents. */
 	public ShoppingCart(Item[] contents) {
-		// CartID is calculated from timestamp on instantiation.
-		// Convert to String to allow concatenation.
+		// CartID is set from timestamp on instantiation and
+		// converted to a String to allow concatenation.
 		this.cartID = String.valueOf(ts.getTime());
 		cart = new ResizeableArrayBag<Item>();
 		for (int i=0; i<contents.length; i++) {
@@ -28,7 +28,7 @@ public class ShoppingCart {
 	
 	/**
 	 * Gets the cartID (cartID is set as the timestamp when the cart is
-	 * initiated and it cannot be changed. 
+	 * initiated). 
 	 * @return The cartID
 	 */
 	public String getCartID() {
@@ -51,24 +51,16 @@ public class ShoppingCart {
 	} // end isCartEmpty
 	
 	/**
-	 * Adds the specified quantity of a specified item to the cart.
+	 * Adds the specified item to the cart.
 	 * @param item The item to be added.
-	 * @param quantity The number of the item to be added.
-	 * @return The number of the item added to the cart or 0 if no items 
-	 * were added. */
-	public int addItem(Item item, int quantity) {
-		if (quantity <= 0)
-			return 0;
-		else {
-			for (int i=0; i<quantity; i++) {
+	 * @return True */
+	public boolean addItem(Item item) {
 				cart.add(item);
-			}
-		}
-		return quantity;
+			return true;
 	}// end addItem
 	
 	/**
-	 * Removes a random item from the cart.
+	 * Removes an unspecified item from the cart.
 	 * @return The item removed if removal was successful, or null if not. */
 	public Item removeAnyItem() {
 		return cart.remove();
@@ -83,7 +75,7 @@ public class ShoppingCart {
 	/**
 	 * Determines if at least one of the specified item is contained in the
 	 * cart.
-	 * @param item The item to be detected.
+	 * @param item The item to be determined.
 	 * @return Either True if at least one of the item is present in the bag,
 	 * or False if not. */
 	public boolean containsItem(Item item) {
@@ -141,19 +133,24 @@ public class ShoppingCart {
 	 * Creates and retrieves the contents of the cart as an array of items.
 	 * @return The array of items in the cart.*/
 	public Item[] cartToArray() {
-		Item [] result = new Item[getCartSize()];
+		Item[] result = new Item[cart.getCurrentSize()];
 		//System.out.println("Output from cartToArrayMethod:");
 		for (int i=0; i<result.length; i++) {
 			result[i] = removeAnyItem();
 			//System.out.println("removed: "+i+" "+result[i].itemToString());
 		} 
 		for (int i=0; i<result.length; i++) {
-			addItem(result[i], 1);
+			addItem(result[i]);
 			//System.out.println("added "+i+" "+result[i].itemToString());
 		}
 		//System.out.println("End cartToArray");
 		return result;
-//		return cart.toArray();
+		
+//		Object[] result = new Item[cart.getCurrentSize()];
+//		for (int i=0; i<cart.getCurrentSize(); i++)
+//			result[i] = cart.toArray()[i];
+//		return result;
+		
 	} // end cartToArray
 	
 	/**
@@ -179,7 +176,7 @@ public class ShoppingCart {
 		
 		Item[] toBeSorted = cartToArray(); // Copy the bag's array.
 		Item[] counted = new Item[toBeSorted.length]; // New empty array to hold duplicates.
-		Arrays.sort(toBeSorted, Comparator.comparing(Item::getName)); // Sort on name field.
+		Arrays.sort(toBeSorted, Comparator.comparing(Item::getName)); // Sort on name.
 		int index = 0; // Index position in counted array.
 		counted[0] = toBeSorted[0];
 		for (int i=0; i<toBeSorted.length-1; i++) {
@@ -190,11 +187,22 @@ public class ShoppingCart {
 				counted[index] = toBeSorted[i+1];
 			}
 		}
+		
+		System.out.println("counted array, at end of sorByName:");
+		for (int i=0; i<counted.length; i++) 
+			if (counted[i] != null)
+				System.out.println(counted[i].itemToString());
+			else
+				System.out.println("null");
+		System.out.println("-----------------------------------\n");
+		
+		// Re-populate the cart with items in the counted array
 		removeAllItems();
 		for (int i=0; i<counted.length; i++) 
 			if (counted[i] != null)
-				addItem(counted[i], 1);
+				addItem(counted[i]);
 		return counted;
+		
 	} // end sortByName
 	
-}
+} // end ShoppingCart

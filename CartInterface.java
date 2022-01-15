@@ -19,19 +19,10 @@ public interface CartInterface<T> {
 	public boolean isCartEmpty();
 	
 	/**
-	 * Adds the specified quantity of a specified item to the cart after 
-	 * confirming sufficient inventory to fill the order. If insufficient 
-	 * inventory, takes all the remaining items to partially fill the order. 
-	 * Client must check the return of this method to identify incomplete 
-	 * order fills and notify the shopper accordingly. NOTE: when an item
-	 * is added to the cart, the shopping cart ID is appended to the end of 
-	 * the item ID to indicate that it is a shopping cart item and not an
-	 * inventory item. Also, the item quantity field is updated to reflect 
-	 * the number of this item in this cart.   
+	 * Adds the specified item to the cart.
 	 * @param item The item to be added.
-	 * @param quantity The number of the item to be added.
-	 * @return The number of items added to the cart. */
-	public int addItem(T item, int quantity);
+	 * @return True */
+	public boolean addItem(T item);
 	
 	/**
 	 * Removes a random item from the cart.
@@ -53,7 +44,7 @@ public interface CartInterface<T> {
 	public boolean containsItem(T item);
 	
 	/**
-	 * Determines the number of the specified item in the cart. 
+	 * Determines the number of the specified items in the cart. 
 	 * @param item The item to be counted.
 	 * @return The number of the specified item in the cart. */
 	public int numberOfSpecificItem(T item);

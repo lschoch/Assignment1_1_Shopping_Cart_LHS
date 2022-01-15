@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * A class to test the methods defined in the class ShoppingCart.
@@ -8,32 +10,35 @@
 public class ShoppingCartDemo {
 	
 	public static void main(String[] args) throws InterruptedException{
-		// Item ID is calculated from timestamp on instantiation.
-		Item item1 = new Item("Table", 30000, 2);
-		// Pause between instantiation of new items to ensure unigue ID's
+		// Item ID is set from timestamp on instantiation.
+		Item item1 = new Item("Table", 30000, 1);
+		// Pause between instantiation of new items to ensure unique ID's
 		Thread.sleep(100); 
-		Item item2 = new Item("Chair", 10000, 1);
+		Item item2 = new Item("Chair", 10000, 2);
 		Thread.sleep(100);
-		Item item3 = new Item("Fishing Reel", 7500, 1);
+		Item item3 = new Item("Fishing Reel", 7500, 3);
 		Thread.sleep(100);
-		Item item4 = new Item("Tackle Box", 2150, 2);
+		Item item4 = new Item("Tackle Box", 2150, 1);
 		Thread.sleep(100);
-		Item item5 = new Item("Hiking Boots", 9585, 20);
+		Item item5 = new Item("Hiking Boots", 9585, 2);
 		Thread.sleep(100);
-		Item item6 = new Item("Skis", 25599, 1);
-		Item[] contents = {item1, item2, item2, item5, item4, item4, item6, item3};
+		Item item6 = new Item("Skis", 25599, 3);
+		Item[] contents = {item1, item2, item3, item4, item5, item6};
 		
 		// A cart that is not full
 		ShoppingCart aCart = new ShoppingCart (contents);
 		
 		System.out.println("//----------------------------------------------------------------------");
-		System.out.println("// Cart contents are printed by converting the cart to an array\n"
-			+ "// and printing each item using the item.toString method.\n\n"
+		System.out.println("// Cart contents are displayed by converting the cart to an array,\n"
+			+ "// sorting on name, and printing each item using the item.toString \n"
+			+ "// method.\n\n"
 			+ "// Contents of cart created with preferred constructor:");
 		displayContents(aCart);
 		
 		System.out.println("//----------------------------------------------------------------------\n"
-				+ "// Contents of cart after removing item5 (Hiking Boots) with removeSpecificItem method:");
+				+ "// Testing removeSpecificItem method.\n"
+				+ "// Contents of cart after removing item5 (Hiking Boots) with \n"
+				+ "// removeSpecificItem method:");
 		aCart.removeSpecificItem(item5);
 		displayContents(aCart);
 		
@@ -45,9 +50,8 @@ public class ShoppingCartDemo {
 		System.out.println("isCartEmpty returns: " + aCart.isCartEmpty() + ", " + str + "\n");
 		
 		System.out.println("//----------------------------------------------------------------------\n"
-				+ "// Contents of cart after adding 2 counts of item5 (Hiking Boots)with addItem method:\n"
-				+ "// (Recall that item5 is 20 pairs of boots so adding 2 items5's = 40 pairs added.");
-		aCart.addItem(item5, 2);
+				+ "// Contents of cart after adding 2 counts of item5 (Hiking Boots)with addItem method:\n");
+		aCart.addItem(item5);
 		displayContents(aCart);
 		
 		System.out.println("//----------------------------------------------------------------------\n"
@@ -59,15 +63,17 @@ public class ShoppingCartDemo {
 				+ itemRemoved.getQuantity() + ".\n");
 		
 		System.out.println("//----------------------------------------------------------------------\n"
-				+ "// Testing containsItem method\n"
-				+ "// Cart currently contains every item, containsItem method should return true\n"
-				+ "// for any item.");
-		str = aCart.containsItem(item4) ? "CORRECT" : "INCORRECT";
-		System.out.println("containsItem(item4) returns: " + aCart.containsItem(item4) + ", " + str);
+				+ "// Testing containsItem method\n");
+		System.out.println("containsItem(item4) returns: " + aCart.containsItem(item4) + "\n"
+				+ "Current cart contents displayed for verification (item4 is \"Tackle Box\"");
+		displayContents(aCart);
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Testing removeSpecificItem method\n");
 		aCart.removeSpecificItem(item6);
 		str = aCart.containsItem(item6) ? "INCORRECT" : "CORRECT";
-		System.out.println("after removing item6, containsItem(item6) returns: " 
-				+ aCart.containsItem(item6) + ", " + str + "\n");
+		System.out.println("after removing item6 with removeSpecificItem, containsItem(item6) "
+				+ "returns: " + aCart.containsItem(item6) + ", " + str + "\n");
 		
 		System.out.println("//----------------------------------------------------------------------\n"
 				+ "// Testing numberOfSpecificItem method\n"
@@ -103,10 +109,22 @@ public class ShoppingCartDemo {
 		System.out.println("getTotalCost returns: " + aCart.getTotalCost() + ", " + str + "\n");
 		
 		System.out.println("//----------------------------------------------------------------------\n"
-				+ "// Testing removeAllItems method and confirming wiht isCartEmpty method.\n");
+				+ "// Testing removeAllItems method and confirming with isCartEmpty method.\n");
 		aCart.removeAllItems();
 		str = aCart.isCartEmpty() ? "CORRECT" : "INCORRECT";
 		System.out.println("After removeAllItems, isCartEmpty returns: " + aCart.isCartEmpty() + ", " + str + "\n");
+		displayContents(aCart);
+		
+		System.out.println("//----------------------------------------------------------------------\n"
+				+ "// Adding and removing items using the appropriate methods.\n"
+				+ "// Contents after adding five items:\n");
+		aCart.addItem(new Item("Toothpaste", 200, 10));
+//		aCart.addItem(item6, 1);
+//		aCart.addItem(item1, 5);
+//		aCart.addItem(item5, 2);
+//		aCart.addItem(item3, 1);
+		displayContents(aCart);
+		System.out.println(aCart.orderToString());
 		
 	} // end main
 	
@@ -116,8 +134,9 @@ public class ShoppingCartDemo {
 	 * @param cart The cart to be displayed.
 	 */
 	private static void displayContents(ShoppingCart cart) {
-		Item[] ar = cart.cartToArray();
-		System.out.println("displayContents:");
+		Item[] ar = Arrays.copyOf(cart.cartToArray(), cart.cartToArray().length);
+		Arrays.sort(ar, Comparator.comparing(Item::getName)); // Sort on name.
+		System.out.println("Cart contents:");
 		for (int i=0; i<ar.length; i++) 
 			System.out.println(ar[i].itemToString());
 		System.out.println(" ");
