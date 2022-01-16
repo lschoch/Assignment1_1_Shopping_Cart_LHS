@@ -146,6 +146,10 @@ public class ShoppingCart {
 	 * @return The array of items in the cart.
 	 */
 	public Item[] cartToArray() {
+		/* Workaround to avoid ClassCastException thrown by cart.toArray 
+		 * method of ResizeableArrayBag: The array is created by removing 
+		 * each item from the bag and then adding it back after it has been 
+		 * copied to the new array. */
 		Item[] result = new Item[cart.getCurrentSize()];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = removeAnyItem();
@@ -154,6 +158,11 @@ public class ShoppingCart {
 			addItem(result[i]);
 		}
 		return result;
+		
+		/* cart.toArray returns an object array, not Item array which throws
+		 * a ClassCastException. */
+//		return cart.toArray(); 
+		
 	}// end cartToArray
 
 	/**
@@ -210,14 +219,6 @@ public class ShoppingCart {
 				counted[index] = toBeSorted[i + 1];
 			}
 		}
-
-//		System.out.println("counted array, at end of sorByName:");
-//		for (int i=0; i<counted.length; i++) 
-//			if (counted[i] != null)
-//				System.out.println(counted[i].itemToString());
-//			else
-//				System.out.println("null");
-//		System.out.println("-----------------------------------\n");
 
 		// Re-populate the cart with items in the counted array
 		removeAllItems();

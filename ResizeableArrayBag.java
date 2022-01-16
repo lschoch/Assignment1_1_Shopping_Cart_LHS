@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.lang.reflect.Array;
+
 /**
    A class that implements a bag of objects by using an array.
 	The bag is never full.
@@ -69,6 +71,7 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
       // The cast is safe because the new array contains null entries.
       @SuppressWarnings("unchecked")
       T[] result = (T[]) new Object[numberOfEntries]; // Unchecked cast
+//      T[] result = (T[]) Array.newInstance(Item.class, numberOfEntries);
       for (int index = 0; index < numberOfEntries; index++)
       {
          result[index] = bag[index];
