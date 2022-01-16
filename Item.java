@@ -21,7 +21,7 @@ public class Item implements ItemInterface {
 		this.ID = String.valueOf(ts.getTime());
 		this.name = " ";
 		this.quantity = 0;
-	} // end empty-item constructor
+	}// end empty-item constructor
 	
 	/** Creates an item with the specified paramenters and ID set
 	 * to the timestamp. */
@@ -32,71 +32,70 @@ public class Item implements ItemInterface {
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
-	} // end constructor
+	}// end constructor
 	
 	/**
 	 * Gets the String ID of the item.
 	 * @return The item's ID. */
 	public String getID() {
 		return ID;
-	} // end getID
+	}// end getID
 	
 	/**
 	 * Gets the name of the item.
 	 * @return The name of the item. */
 	public String getName() {
 		return name;
-	} // end getName
+	}// end getName
 	
 	/**
 	 * Gets the price of the item multiplied by 100, expressed as an integer.
 	 * @return The item's price multiplied by 100. */
 	public int getPrice() {
 		return price;
-	} // end getPrice
+	}// end getPrice
 	
 	/**
 	 * Gets the quantity of this item.
 	 * @return The quantity. */
 	public int getQuantity() {
 		return quantity;
-	} // end getQuantity
+	}// end getQuantity
 	
 	/**
 	 * Sets the String ID of the item.
 	 * @param id The String ID to be set. */
 	public void setID(String id) {
 		this.ID = id;
-	} // end setID  
+	}// end setID  
 	
 	/**
 	 * Set the name of the item.
 	 * @param name The name to be set. */
 	public void setName(String name) {
 		this.name = name;
-	} // end setName;
+	}// end setName;
 	
 	/** 
 	 * Sets the price of the item multiplied by 100, expressed as an integer.
 	 * @param id The price of the item to be set. */
 	public void setPrice(int price) {
 		this.price = price;
-	} // end setPrice
+	}// end setPrice
 	
 	/**
 	 * Sets the quantity of the item.
 	 * @param quantity The quantity to be set */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	} // end setQuantity
+	}// end setQuantity
 	
 	/**
 	 * Creates a string that shows all properties of the item.
 	 * @return The created string. */
 	@Override
 	public String itemToString() {
-//		return "Item [ID=" + ID + ", name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
 		return String.format("Item [ID=%13s Name=%-13s Price=%6s Quantity=%3s]", ID, name, price, quantity);
-	}
+	}// end itemToString
 
-}
+}// end class
