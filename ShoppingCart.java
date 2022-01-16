@@ -19,11 +19,9 @@ public class ShoppingCart {
 	public ShoppingCart(Item[] contents) {
 		// CartID is set from timestamp on instantiation and
 		// converted to a String to allow concatenation.
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		this.cartID = String.valueOf(ts.getTime());
-		cart = new ResizeableArrayBag<Item>();
-		for (int i=0; i<contents.length; i++) {
-			cart.add(contents[i]);
-		}
+		cart = new ResizeableArrayBag<>(contents);
 	} // end constructor[]
 	
 	/**
