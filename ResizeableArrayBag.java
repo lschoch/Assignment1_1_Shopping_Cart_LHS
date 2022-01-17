@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
    @author Frank M. Carrano, Timothy M. Henry
    @version 5.0
 */
+@SuppressWarnings("unused")
 public final class ResizeableArrayBag<T> implements BagInterface<T>
 {
 	private T[] bag; // Cannot be final due to doubling
