@@ -18,7 +18,7 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
 	 * as a property of the bag. */
 	private Class<T> clazz;
 
-	/** Creates an empty bag whose initial capacity is 25. */
+	/** Creates an empty bag of specified class with initial capacity of 25. */
 	public ResizeableArrayBag(Class<T> clazz) 
 	{
 		this(clazz, DEFAULT_CAPACITY);
@@ -143,8 +143,8 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
 	public T remove()
 	{
 		checkintegrity();
-      T result = removeEntry(numberOfEntries - 1);
-      return result;
+		T result = removeEntry(numberOfEntries - 1);
+		return result;
 	} // end remove
 	
 	/** Removes one occurrence of a given entry from this bag.
