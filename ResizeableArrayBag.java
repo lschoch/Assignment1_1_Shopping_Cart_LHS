@@ -7,7 +7,6 @@ import java.lang.reflect.Array;
    @author Frank M. Carrano, Timothy M. Henry
    @version 5.0
 */
-@SuppressWarnings("unused")
 public final class ResizeableArrayBag<T> implements BagInterface<T>
 {
 	private T[] bag; // Cannot be final due to doubling
@@ -15,6 +14,9 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
     private boolean integrityOK = false;
 	private static final int DEFAULT_CAPACITY = 25; // Initial capacity of bag
 	private static final int MAX_CAPACITY = 10000;
+	/* To prevent ClassCast Exceptions, the class must be provided 
+	 * as a property of the bag. */
+	private Class<T> clazz;
 
 	/** Creates an empty bag whose initial capacity is 25. */
 	public ResizeableArrayBag() 
@@ -36,13 +38,15 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
       integrityOK = true;
 	} // end constructor
 
-	/** Creates a bag containing given entries.
-	    @param contents  An array of objects. */
-   public ResizeableArrayBag(T[] contents) 
+	/** Creates a bag containing an array of objects of the specified class.
+	    @param clazz The class of the bag's contents.
+	    @param contents  An array of objects of the specified class. */
+   public ResizeableArrayBag(Class<T> clazz, T[] contents) 
    {
       checkCapacity(contents.length);
       bag = Arrays.copyOf(contents, contents.length);
       numberOfEntries = contents.length;
+      this.clazz = clazz;
       integrityOK = true;
    } // end constructor
        
@@ -71,8 +75,9 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
       
       // The cast is safe because the new array contains null entries.
       @SuppressWarnings("unchecked")
-      T[] result = (T[]) new Object[numberOfEntries]; // Unchecked cast
-//      T[] result = (T[]) Array.newInstance(Item.class, numberOfEntries);
+//      T[] result = (T[]) new Object[numberOfEntries]; // Unchecked cast
+      // This array will be cast to clazz, the input class, not Object
+      T[] result = (T[]) Array.newInstance(clazz, numberOfEntries); // Unchecked cast
       for (int index = 0; index < numberOfEntries; index++)
       {
          result[index] = bag[index];

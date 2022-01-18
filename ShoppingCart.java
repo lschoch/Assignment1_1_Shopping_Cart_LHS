@@ -14,13 +14,14 @@ public class ShoppingCart {
 	private ResizeableArrayBag<Item> cart;
 	Timestamp ts = new Timestamp(System.currentTimeMillis());
 
-	/** Creates a ShoppingCart with the specified contents. */
+	/** Creates a ShoppingCart that accepts Item objects.
+	 * @param contents The initial contents of the cart. */
 	public ShoppingCart(Item[] contents) {
-		// CartID is set from timestamp on instantiation and
-		// converted to a String to allow concatenation.
+		/* CartID is set from timestamp on instantiation and
+		   converted to a String to allow concatenation.*/
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		this.cartID = String.valueOf(ts.getTime());
-		cart = new ResizeableArrayBag<>(contents);
+		this.cart = new ResizeableArrayBag<Item>(Item.class, contents);
 	}// end constructor[]
 
 	/**
@@ -150,18 +151,19 @@ public class ShoppingCart {
 		 * method of ResizeableArrayBag: The array is created by removing 
 		 * each item from the bag and then adding it back after it has been 
 		 * copied to the new array. */
-		Item[] result = new Item[cart.getCurrentSize()];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = removeAnyItem();
-		}
-		for (int i = 0; i < result.length; i++) {
-			addItem(result[i]);
-		}
-		return result;
+//		Item[] result = new Item[cart.getCurrentSize()];
+//		for (int i = 0; i < result.length; i++) {
+//			result[i] = removeAnyItem();
+//		}
+//		for (int i = 0; i < result.length; i++) {
+//			addItem(result[i]);
+//		}
+//		return result;
 		
-		/* cart.toArray returns an object array, not Item array which throws
-		 * a ClassCastException. */
-//		return cart.toArray(); 
+		/* Before adding "clazz" as a field of the ResizeableArrayBag, 
+		 * cart.toArray returned an object array, not an Item array 
+		 * which threw a ClassCastException. */
+		return cart.toArray(); 
 		
 	}// end cartToArray
 
