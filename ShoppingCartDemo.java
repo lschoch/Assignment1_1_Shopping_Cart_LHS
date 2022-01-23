@@ -122,7 +122,7 @@ public class ShoppingCartDemo {
 				+ "// Testing removeItemByName method:");
 		System.out.println("removeItemByName(\"heater\") returns: " + aCart.removeItemByName("heater"));
 		displayContents(aCart);
-		aCart.orderToString();
+		System.out.println(aCart.orderToString());
 		
 	} // end main
 	
@@ -132,7 +132,7 @@ public class ShoppingCartDemo {
 	 * @param cart The cart to be displayed.
 	 */
 	private static void displayContents(ShoppingCart cart) {
-		Item[] ar = Arrays.copyOf(cart.cartToArray(), cart.cartToArray().length);
+		Item[] ar = cart.cartToArray();
 		Arrays.sort(ar, Comparator.comparing(Item::getName)); // Sort on name.
 		System.out.println("Cart contents:");
 		for (int i=0; i<ar.length; i++) 

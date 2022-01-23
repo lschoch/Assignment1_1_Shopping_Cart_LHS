@@ -1,62 +1,51 @@
 import java.util.Arrays;
-import java.lang.reflect.Array;
-
 /**
    A class that implements a bag of objects by using an array.
 	The bag is never full.
    @author Frank M. Carrano, Timothy M. Henry
    @version 5.0
 */
-public final class ResizeableArrayBag<T> implements BagInterface<T>
+public final class ResizableArrayBag<T> implements BagInterface<T>
 {
 	private T[] bag; // Cannot be final due to doubling
 	private int numberOfEntries;
-    private boolean integrityOK = false;
+   private boolean integrityOK = false;
 	private static final int DEFAULT_CAPACITY = 25; // Initial capacity of bag
 	private static final int MAX_CAPACITY = 10000;
-	/* To prevent ClassCast Exceptions, the class must be provided 
-	 * as a property of the bag. */
-	private Class<T> clazz;
 
-	/** Creates an empty bag of specified class with initial capacity of 25. */
-	public ResizeableArrayBag(Class<T> clazz) 
+	/** Creates an empty bag whose initial capacity is 25. */
+	public ResizableArrayBag() 
 	{
-		this(clazz, DEFAULT_CAPACITY);
+		this(DEFAULT_CAPACITY);
 	} // end default constructor
 
-	/** Creates an empty bag containing an array of objects of the specified
-	 * class.
-	 * @param clazz The class of the bag's contents.
-	 * @param initialCapacity  The integer capacity desired. */
-	public ResizeableArrayBag(Class<T> clazz, int initialCapacity)
+	/** Creates an empty bag having a given initial capacity.
+	    @param initialCapacity  The integer capacity desired. */
+	public ResizableArrayBag(int initialCapacity)
 	{
       checkCapacity(initialCapacity);
       
       // The cast is safe because the new array contains null entries
       @SuppressWarnings("unchecked")
-   // This array will be cast to clazz, the input class, not Object
-      T[] tempBag = (T[]) Array.newInstance(clazz, initialCapacity); // Unchecked cast
+      T[] tempBag = (T[])new Object[initialCapacity]; // Unchecked cast
       bag = tempBag;
-      this.clazz = clazz;
       numberOfEntries = 0;
       integrityOK = true;
 	} // end constructor
 
-	/** Creates a bag containing an array of objects of the specified class.
-	 * @param clazz The class of the bag's contents.
-	 * @param contents  An array of objects of the specified class. */
-   public ResizeableArrayBag(Class<T> clazz, T[] contents) 
+	/** Creates a bag containing given entries.
+	    @param contents  An array of objects. */
+   public ResizableArrayBag(T[] contents) 
    {
       checkCapacity(contents.length);
       bag = Arrays.copyOf(contents, contents.length);
       numberOfEntries = contents.length;
-      this.clazz = clazz;
       integrityOK = true;
    } // end constructor
        
-   /** Adds a new entry to this bag.
-    * @param newEntry  The object to be added as a new entry.
-    * @return  True. */
+	/** Adds a new entry to this bag.
+       @param newEntry  The object to be added as a new entry.
+       @return  True. */
 	public boolean add(T newEntry)
 	{
 		checkintegrity();
@@ -72,19 +61,19 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
 	} // end add
 
 	/** Retrieves all entries that are in this bag.
-	 * @return  A newly allocated array of all the entries in this bag. */
+       @return  A newly allocated array of all the entries in this bag. */
 	public T[] toArray() 
 	{
 		checkintegrity();
       
       // The cast is safe because the new array contains null entries.
       @SuppressWarnings("unchecked")
-      // This array will be cast to clazz, the input class, not Object
-      T[] result = (T[]) Array.newInstance(clazz, numberOfEntries); // Unchecked cast
+      T[] result = (T[])new Object[numberOfEntries]; // Unchecked cast
       for (int index = 0; index < numberOfEntries; index++)
       {
          result[index] = bag[index];
       } // end for
+      
       return result;
 	} // end toArray
    
@@ -143,8 +132,8 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
 	public T remove()
 	{
 		checkintegrity();
-		T result = removeEntry(numberOfEntries - 1);
-		return result;
+      T result = removeEntry(numberOfEntries - 1);
+      return result;
 	} // end remove
 	
 	/** Removes one occurrence of a given entry from this bag.
@@ -152,7 +141,7 @@ public final class ResizeableArrayBag<T> implements BagInterface<T>
        @return  True if the removal was successful, or false if not. */
 	public boolean remove(T anEntry)
 	{
-	  checkintegrity();
+		checkintegrity();
       int index = getIndexOf(anEntry);
       T result = removeEntry(index);
       return anEntry.equals(result);

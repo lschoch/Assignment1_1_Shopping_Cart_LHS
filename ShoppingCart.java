@@ -11,17 +11,17 @@ import java.sql.Timestamp;
  */
 public class ShoppingCart {
 	private String cartID;
-	private ResizeableArrayBag<Item> cart;
+	private ResizableArrayBag<Item> cart;
 	Timestamp ts = new Timestamp(System.currentTimeMillis());
 
-	/** Creates a ShoppingCart that accepts Item objects.
+	/** Creates a ShoppingCart that holds Item objects.
 	 * @param contents The initial contents of the cart. */
 	public ShoppingCart(Item[] contents) {
 		/* CartID is set from timestamp on instantiation and
 		   converted to a String to allow concatenation.*/
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		this.cartID = String.valueOf(ts.getTime());
-		this.cart = new ResizeableArrayBag<Item>(Item.class, contents);
+		this.cart = new ResizableArrayBag<Item>(contents);
 	}// end constructor[]
 
 	/**
@@ -144,26 +144,18 @@ public class ShoppingCart {
 	/**
 	 * Creates and retrieves the contents of the cart as an array of items.
 	 * 
-	 * @return The array of items in the cart.
+	 * @return An array of Items in the cart.
 	 */
 	public Item[] cartToArray() {
-		/* Workaround to avoid ClassCastException thrown by cart.toArray 
-		 * method of ResizeableArrayBag: The array is created by removing 
-		 * each item from the bag and then adding it back after it has been 
-		 * copied to the new array. */
-//		Item[] result = new Item[cart.getCurrentSize()];
-//		for (int i = 0; i < result.length; i++) {
-//			result[i] = removeAnyItem();
-//		}
-//		for (int i = 0; i < result.length; i++) {
-//			addItem(result[i]);
-//		}
-//		return result;
-		
-		/* Before adding "clazz" as a field of the ResizeableArrayBag, 
-		 * cart.toArray returned an object array, not an Item array 
-		 * which threw a ClassCastException. */
-		return cart.toArray(); 
+//		// Get array of cart items (the array will be an Object array
+//		// of Items.
+		Object [] getCart = cart.toArray();
+		// Convert Object array to Item array
+		Item [] result = new Item[getCart.length];
+		for (int i=0; i<getCart.length; i++) {
+			result[i] = (Item) getCart[i];
+		}
+		return result; 
 		
 	}// end cartToArray
 
@@ -175,8 +167,7 @@ public class ShoppingCart {
 	 */
 	public int getTotalCost() {
 		int total = 0;
-		Item[] ar = new Item[getCartSize()];
-		ar = cartToArray();
+		Item[] ar = cartToArray();
 		for (int i = 0; i < ar.length; i++)
 			if (ar[i] != null)
 				total += ar[i].getPrice() * ar[i].getQuantity();
@@ -192,7 +183,7 @@ public class ShoppingCart {
 	public int removeItemByName(String name) {
 		Item[] ar = cartToArray();
 		int count = 0;
-		for (int i = 0; i < cart.getCurrentSize(); i++)
+		for (int i = 0; i < ar.length; i++)
 			if (ar[i].getName().equals(name)) {
 				cart.remove(ar[i]);
 				count++;
